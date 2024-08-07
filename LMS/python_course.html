@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Python Course Details</title>
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Python Course</h1>
+        <p>Python is a high-level, class-based, object-oriented programming language that is designed to have as few implementation dependencies as possible.</p>
+        
+        <h2>Course Content</h2>
+        <ul>
+            <li>Introduction to Java</li>
+            <li>Object-Oriented Programming</li>
+            <li>Java Standard Libraries</li>
+            <li>GUI Programming</li>
+            <li>Advanced Topics</li>
+        </ul>
+        
+        <h2>Payment</h2>
+        <form id="payment-form">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div id="paypal-button-container"></div>
+            <a href="https://raghuveerkasyap.wordpress.com" class="btn btn-primary" role="button">Course Registration</a>
+        </form>
+    </div>
+
+    <script>
+        paypal.Buttons({
+            createOrder: function(data, actions) {
+                // Set up the transaction
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: '50.00' // Replace with the actual amount
+                        }
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                // Capture the transaction
+                return actions.order.capture().then(function(details) {
+                    alert('Transaction completed by ' + details.payer.name.given_name);
+                    
+                    // Optionally, you can submit the form with the payer's information
+                    // document.getElementById('payment-form').submit();
+                });
+            },
+            onError: function(err) {
+                console.error('An error occurred during the transaction', err);
+                alert('An error occurred during the transaction.');
+            }
+        }).render('#paypal-button-container');
+    </script>
+
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</body>
+</html>
